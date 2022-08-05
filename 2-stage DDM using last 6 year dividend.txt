@@ -1,0 +1,134 @@
+
+
+# load packages
+library(xts)
+
+library(zoo)
+library(TTR)
+library(quantmod)
+
+library(ggplot2)
+library(magrittr)
+
+library(broom)
+
+# get last six years dividends for a given stock 
+
+dividend_last6 <- getDividends("MSFT", 
+             from = "2016-03-09",
+             to = Sys.Date(), 
+             env = .GlobalEnv, 
+             src = "yahoo", 
+             auto.assign = TRUE, 
+             auto.update = TRUE, 
+             verbose = FALSE)
+
+# try to solve first stage growth rate - g1 
+
+# first convert the dividend data to a 4 x 6 matrix
+
+	dm <- matrix(data = dividend_last6 , nrow= 4, ncol =6)
+
+	colnames(dm) <- c(2016:2021)
+	rownames(dm) <- c(1:4)
+
+# do the sum of each year's dividend
+
+	totalD <- c(sum(dm[1:4,1]), sum(dm[1:4,2]), sum(dm[1:4,3]), sum(dm[1:4,4]), sum(dm[1:4,5]), sum(dm[1:4,6]))
+
+	dm <- rbind(dm, totalD)
+
+print(dm)
+
+# calculate the growth of dividend year over year
+
+	dividend.year <- c(dm[5,1:6])
+
+percentage.change <- Delt(dividend.year)
+
+print(percentage.change)
+
+# use the average percentage change as g1
+
+	g1 <- mean(percentage.change[2:6,1])
+	
+print (g1)
+
+
+# use g1 to forecast next 4 years cash flow
+    
+    mostrecent.dividend <-  dm[5,6]
+mostrecent.dividend
+  
+  future4.dividend <- c(dm[5,6]* (1+g1)^(1:4))
+
+
+
+dividend_2016 <- sum(zt(1:4,2))
+
+print(dividend_2016)
+
+
+dividend_2017 <- sum(zt(5:8,2))
+dividend_2018 <- sum(zt(5:8,2))
+dividend_2019 <- sum(zt(5:8,2))
+dividend_2020 <- sum(zt(5:8,2))
+dividend_2021 <- sum(zt(5:8,2))
+
+
+
+Z_matrix <- matrix (zt, nrow=4)
+
+
+print(z_matrix)
+
+	new_df <- data.frame (z_matrix, row.names=c("A","B","C","D"))
+
+
+	names(new_df) <- c(2016,2017,2018,2019,2020,2021)
+
+print(new_df)
+
+
+dividend_2016 <- sum(new_df(2016))
+dividend_2017 <- sum(new_df(2017))
+dividend_2018 <- sum(new_df(2018))
+dividend_2019 <- sum(new_df(2019))
+dividend_2020 <- sum(new_df(2020))
+dividend_2021 <- sum(new_df(2021))
+
+
+
+z_matrix
+
+dividend_pivot_table <- stock_dividend_tbl %>%
+	rpivotTable( 
+		rows    = ~ YEAR(date)
+      	) %>%
+    
+dividend_pivot_table
+
+
+stock_pivot_table <- stock_data_tbl %>%
+    pivot_table(
+        .rows    = ~ YEAR(date),
+        .columns = ~ symbol,
+        .values  = ~ PCT_CHANGE_FIRSTLAST(adjusted)
+    ) %>%
+    rename(year = 1)
+
+stock_plot <- stock_data_tbl %>%
+    group_by(symbol) %>%
+    plot_time_series(date, adjusted, .color_var = symbol, .facet_ncol = 2, .interactive = FALSE)
+
+
+
+head(AD)
+
+stock.price(dividend=c(1),k=12,g=10) 
+
+stock.price(dividend=c(1),ROE=50,b=20,riskFree=5,marketPremium=8, beta=90)
+
+data(stockData) 
+
+plot(stockData[,-(1:2)])
