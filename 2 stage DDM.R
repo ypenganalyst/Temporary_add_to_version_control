@@ -21,7 +21,7 @@ Stock_Reco <- function(Givenstock_ticker, Number_of_g1_years, g2, MRP){
                                  auto.assign = TRUE, 
                                  auto.update = TRUE, 
                                  verbose = FALSE)
-  dm <- matrix(data = dividend_last6 , nrow= 4)
+  dm <- matrix(data = dividend_last6 , nrow= 4, ncol = 6)
   colnames(dm) <- c(2016:2021)
   rownames(dm) <- c(1:4)
   totalD <- c(sum(dm[1:4,1]), sum(dm[1:4,2]), sum(dm[1:4,3]), sum(dm[1:4,4]), sum(dm[1:4,5]), sum(dm[1:4,6]))
